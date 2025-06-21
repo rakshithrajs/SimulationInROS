@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<robot name="botbot">
+    <link name="base_link">
+        <inertial>
+            <mass value="2.0"/>
+            <inertia ixx="0.1" iyy="0.1" izz="0.1" ixy="0.0" ixz="0.0" iyz="0.0"/>
+        </inertial>
+        <visual>
+            <origin xyz="0.0 0.0 0.5"/>
+            <geometry>
+                <cylinder radius="0.2" length="10"/>
+            </geometry>
+            <material name="gray">
+                <color rgba="0.5 0.5 0.5 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.5"/>
+            <geometry>
+                <box size="0.6 0.36 0.12"/>
+            </geometry>
+        </collision>
+    </link>
+</robot>

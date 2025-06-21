@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<robot name="chota_bot">
+    <link name="base_link">
+        <inertial>
+            <mass value="2.0"/>
+            <inertia ixx="0.1" iyy="0.1" izz="0.1" ixy="0.0" ixz="0.0" iyz="0.0"/>
+        </inertial>
+        <visual>
+            <origin xyz="0.0 0.0 0.5"/>
+            <geometry>
+                <box size="1.0 0.6 0.2"/>
+            </geometry>
+            <material name="gray">
+                <color rgba="0.5 0.5 0.5 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.5"/>
+            <geometry>
+                <box size="0.6 0.36 0.12"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="rand_wheel1">
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" ixz="0.0" iyz="0.0"/>
+        </inertial>
+        <visual name="">
+            <geometry>
+                <cylinder radius="0.4" length="0.02"/>
+            </geometry>
+            <material name="yellow">
+                <color rgba="1.0 1.0 0.0 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.2" length="0.01"/> 
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="wheel1_base" type="continuous">
+        <origin xyz="0.0 0.3 0.5" rpy="1.57 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="rand_wheel1"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+    
+    <link name="rand_wheel2">
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0.0" ixz="0.0" iyz="0.0"/>
+        </inertial>
+        <visual name="">
+            <geometry>
+                <cylinder radius="0.4" length="0.02"/>
+            </geometry>
+            <material name="yellow">
+                <color rgba="1.0 1.0 0.0 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.2" length="0.01"/> 
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="wheel2_base" type="continuous">
+        <origin xyz="0.0 -0.3 0.5" rpy="1.57 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="rand_wheel2"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-1" upper="1" effort="0.0" velocity="0.0"/>
+    </joint>
+    
+    <gazebo>
+        <plugin name="diff_drive_controller" filename="libgazebo_ros_diff_drive.so">
+            <ros>
+                <namespace>/</namespace>
+            </ros>
+
+            <left_joint> wheel1_base </left_joint>
+            <right_joint> wheel2_base </right_joint>
+
+            <wheel_separation> 0.6 </wheel_separation> 
+            <wheel_diameter> 0.8 </wheel_diameter>         
+
+            <odometry_source>world</odometry_source>  
+
+            <command_topic>cmd_vel</command_topic>
+            <odometry_topic>odom</odometry_topic>
+
+            <max_wheel_torque> 10.0 </max_wheel_torque>
+
+            <publish_wheel_tf>true</publish_wheel_tf>
+            <publish_wheel_joint_state>true</publish_wheel_joint_state>
+        </plugin>
+    </gazebo>
+
+</robot>
